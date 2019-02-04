@@ -71,7 +71,18 @@ function HtmlTwo() {
 }
 
 function convert(rs) {
-    return rs.headers['Content-Type'].includes("charset=GBK") ? JSON.parse(iconv.decode(rs.data, "GBK")) : rs.json();
+    // GBK
+    // GB18030
+    // UTF-8
+    let contentType = rs.headers['Content-Type'];
+    let charset = contentType.split('charset=')[1];
+
+    try {
+        return JSON.parse(iconv.decode(rs.data, "GBK"));
+    } catch(e) {
+        console.log(e);
+    }
+    return rs.json();
 }
 
 function getData(type) {
@@ -97,11 +108,10 @@ function DataContrast({type, time = Date.now(), minute = 3, fee, remark}) {
 
     let rs = getData(type);
     let newTrade = [];
-    console.log('rs.result.detail', rs.result.detail);
     if (rs.result && rs.result.detail && Array.isArray(rs.result.detail)) {
         rs.result.detail.forEach(r => {
 
-            if (!(r.tradeFrom === '外部商户' && r.direction === '卖出') || !(r.signProduct === '转账收款码' && r.accountType === '交易')) return;
+            if (!((r.tradeFrom === '外部商户' && r.direction === '卖出') || (r.signProduct === '转账收款码' && r.accountType === '交易'))) return;
 
             let receiveFee;
             let receiveTime;
@@ -109,7 +119,7 @@ function DataContrast({type, time = Date.now(), minute = 3, fee, remark}) {
 
                 let gmtCreate = new Date(r.gmtCreate).getTime();
                 let isFilterTime = gmtCreate > time - minute * 60 * 1000 && gmtCreate < time;
-                if (!isFilterTime && (fee || r.totalAmount !== fee)) return;
+                if (!isFilterTime || (fee && r.totalAmount !== fee)) return;
 
                 receiveFee = r.totalAmount;
                 receiveTime = new Date(gmtCreate);
@@ -118,20 +128,19 @@ function DataContrast({type, time = Date.now(), minute = 3, fee, remark}) {
 
                 let tradeTime = new Date(r.tradeTime).getTime();
                 let isFilterTime = tradeTime > time - minute * 60 * 1000 && tradeTime < time;
-
-                if (!isFilterTime && (fee || r.tradeAmount !== fee)) return;
+                if (!isFilterTime || (fee && r.totalAmount !== fee)) return;
 
                 receiveFee = r.tradeAmount;
                 receiveTime = new Date(tradeTime);
             }
 
-            if (!(remark && r.goodsTitle.includes(remark)) || r.goodsTitle !== '商品') return;
+            if (!((remark && r.goodsTitle.includes(remark)) || r.goodsTitle === '商品')) return;
 
             let tradeNo = r.tradeNo;
             if (!tradePool.includes(tradeNo)) {
                 newTrade.push({
-                    name: r.otherAccountFullname,
-                    time: receiveTime,
+                    name: r.otherAccountFullname || r.consumerName,
+                    time: receiveTime.Format('yyyy-MM-dd hh:mm'),
                     fee: receiveFee
                 });
                 tradePool.push(tradeNo);
