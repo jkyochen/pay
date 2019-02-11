@@ -228,3 +228,5 @@ typings/
 .dynamodb/
 
 # End of https://www.gitignore.io/api/node,macos
+
+tmp/

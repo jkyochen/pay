@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "fib-logger": "0.0.4",
     "iconv-lite": "^0.4.24"
   }
 }

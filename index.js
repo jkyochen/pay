@@ -1,5 +1,30 @@
 const pay = require('./util/pay');
 
+let logPath = './tmp/';
+let logConfig = [{
+    type: "file",
+    levels: [console.FATAL, console.ALERT, console.CRIT, console.ERROR],
+    path: logPath + "error.log",
+    split: "hour",
+    count: 128
+}, {
+    type: "file",
+    levels: [console.WARN],
+    path: logPath + "warn.log",
+    split: "hour",
+    count: 128
+}, {
+    type: "file",
+    levels: [console.NOTICE, console.INFO],
+    path: logPath + "access.log",
+    split: "hour",
+    count: 128
+}];
+require("fib-logger").setup({
+    logPath: logPath,
+    logConfig: logConfig
+});
+
 let cookie = '';
 
 let AliSum = 1;
