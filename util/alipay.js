@@ -92,12 +92,12 @@ function getData(type) {
     }
 
     let rs = getRefresh();
-    if (!rs.navResult || !rs.navResult.result) throw 'cookie失效';
+    if (!rs.navResult || !rs.navResult.result) throw '支付宝：cookie失效';
     rs = _get(type);
 
     if (rs.status === 'failed') {
         rs = _get(!type);
-        if (rs.status === 'failed') throw rs.msg || '频繁访问';
+        if (rs.status === 'failed') throw `支付宝：${rs.msg || '频繁访问'}`;
     }
     return rs;
 }

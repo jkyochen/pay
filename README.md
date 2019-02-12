@@ -15,6 +15,14 @@
 - 可以看到 tradeListQuery.json 点击它
 - 点击 headers 它找到 Cookie: 后面就是 cookie(务必复制完整)
 
+### 获取微信COOKIE
+- 浏览器访问：https://wx.qq.com（此地址必须设置到后台支付设置里，登录完成后会有所变更）
+- 手机扫码登录微信账号
+- 浏览器按f12
+- 找到Network并点击再刷新一下
+- 可以看到webwxinit?r=*******点击它
+- 点击headers它找到Cookie: 后面就是cookie(务必复制完整)
+
 ## 风险
 
 1. 手机端会在支付时要求人脸识别。（遇到过一次）
