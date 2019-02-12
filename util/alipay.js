@@ -3,7 +3,6 @@ require('./dateformat.js');
 const http = require('http');
 const ssl = require('ssl');
 const iconv = require("iconv-lite");
-// const iconv = require("iconv");
 const querystring = require('querystring');
 
 ssl.loadRootCerts();

@@ -1,4 +1,4 @@
-const pay = require('./util/pay');
+const alipay = require('./util/alipay');
 
 let logPath = './tmp/';
 let logConfig = [{
@@ -36,7 +36,7 @@ function fetch() {
 
     try {
 
-        // let rs = pay(cookie, {
+        // let rs = alipay(cookie, {
         //     type: AliType, // 类型，切换支付宝接口切换 HtmlOne / HtmlTwo
         //     time: Date.now(), // 起始时间点
         //     minute: 5, // 过滤 5 分钟内的数据
@@ -44,7 +44,7 @@ function fetch() {
         //     remark: '备注' // 以备注作为过滤
         // });
 
-        let rs = pay(cookie, {
+        let rs = alipay(cookie, {
             type: AliType
         });
         data = rs.length;
