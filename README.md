@@ -1,5 +1,7 @@
 # pay
 
+> 翻译自 [ChenSee/ChenPay](https://github.com/ChenSee/ChenPay)
+
 ## 启动
 
 1. 获取 `cookie` 填到 `index.js`
